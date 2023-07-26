@@ -118,6 +118,26 @@ class Tree {
 
         return result.map(cb);
     }
+
+    preorder(root = this.root, result = [], cb = (value) => value) {
+        if (root !== null) {
+            result.push(root.data);
+            this.preorder(root.left, result);
+            this.preorder(root.right, result);
+        }
+
+        return result.map(cb);
+    }
+
+    postorder(root = this.root, result = [], cb = (value) => value) {
+        if (root !== null) {
+            this.preorder(root.left, result);
+            this.preorder(root.right, result);
+            result.push(root.data);
+        }
+
+        return result.map(cb);
+    }
 }
 
 let root = new Tree();
