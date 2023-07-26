@@ -125,7 +125,6 @@ class Tree {
             this.preorder(root.left, result);
             this.preorder(root.right, result);
         }
-
         return result.map(cb);
     }
 
@@ -137,6 +136,25 @@ class Tree {
         }
 
         return result.map(cb);
+    }
+
+    height(root = this.root) {
+        if (root === null || (root.left === null && root.right === null)) return 0;
+        
+        let leftHeight = this.height(root.left) + 1;
+        let rightHeight = this.height(root.right) + 1;
+
+        return leftHeight > rightHeight ? leftHeight : rightHeight;
+    }
+
+    depth(node, root = this.root, counter = 0) {
+        if (node === root) return counter;
+
+        if (root.data > node.data) {
+            return this.depth(node, root.left, counter + 1);
+        } else if (root.data < node.data) {
+            return this.depth(node, root.right, counter + 1);
+        }
     }
 }
 
@@ -152,3 +170,7 @@ console.log('====================');
 console.log(root.levelOrder());
 console.log('====================');
 console.log(root.inorder());
+console.log('====================');
+console.log(`Node height: ${root.height(root.find(324))}`);
+console.log('====================');
+console.log(`Node depth: ${root.depth(root.find(12))}`);
