@@ -5,4 +5,8 @@ function handleArray(array) {
     return newArray;
 }
 
-export { handleArray };
+function createRandomizedArray() {
+    return [...Array(15)].map(() => Math.floor(Math.random() * 100));
+}
+
+export { handleArray, createRandomizedArray };
