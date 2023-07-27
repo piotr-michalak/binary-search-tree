@@ -1,4 +1,3 @@
-import prettyPrint from './pretty-print.js';
 import { handleArray } from './helpers.js';
 import Node from './node.js';
 
@@ -140,7 +139,7 @@ class Tree {
 
     height(root = this.root) {
         if (root === null || (root.left === null && root.right === null)) return 0;
-        
+
         let leftHeight = this.height(root.left) + 1;
         let rightHeight = this.height(root.right) + 1;
 
@@ -156,21 +155,29 @@ class Tree {
             return this.depth(node, root.right, counter + 1);
         }
     }
+
+    isBalanced(root = this.root) {
+        let queue = [];
+        queue.push(root);
+        let balanced = true;
+
+        while (queue.length > 0) {
+            let node = queue.shift();
+
+            if (node.left !== null) queue.push(node.left);
+            if (node.right !== null) queue.push(node.right);
+
+            balanced = Math.abs(this.height(node.left) - this.height(node.right)) <= 1 && balanced;
+        }
+
+        return balanced;
+    }
+
+    rebalance(root = this.root) {
+        const newArray = this.inorder();
+        const newRoot = this.buildTree(newArray);
+        this.root = newRoot;
+    }
 }
 
-let root = new Tree();
-root.insert(12);
-prettyPrint(root.root);
-console.log('====================');
-root.delete(67);
-prettyPrint(root.root);
-console.log('====================');
-console.log(root.find(4));
-console.log('====================');
-console.log(root.levelOrder());
-console.log('====================');
-console.log(root.inorder());
-console.log('====================');
-console.log(`Node height: ${root.height(root.find(324))}`);
-console.log('====================');
-console.log(`Node depth: ${root.depth(root.find(12))}`);
+export default Tree;
